@@ -3,21 +3,21 @@ class Plant:
     total_growth = 0
     def __init__(self, name):
         self.name = name
-        self.__height = 0
-        self.__type = "regular"
+        self.height = 0
+        self.type = "regular"
 
     def grow(self):
-        self.__height += 1
+        self.height += 1
         Plant.total_growth += 1
 
     def set_height(self, new_height):
         if new_height >= 0:
-            self.__height = new_height
+            self.height = new_height
         else:
             print("Warning: Height is invalid!")
 
     def get_info(self):
-        print(f"- {self.name}: {self.__height}cm")
+        print(f"- {self.name}: {self.height}cm")
 
 
 class FloweringPlant(Plant):
@@ -25,7 +25,7 @@ class FloweringPlant(Plant):
         super().__init__(name, height)
         self.color = color
         self.__is_blooming = 0
-        self.__type = "flowering"
+        self.type = "flowering"
     
     def bloom(self):
         self.__is_blooming = 1
@@ -40,7 +40,7 @@ class PrizePlant(FloweringPlant):
     def __init__(self,name, height, color, prize_points):
         super().__init__(name, height, color)
         self.prize_points = prize_points
-        self.__type = "prize"
+        self.type = "prize"
 
     def get_info(self):
         if self.__is_blooming:
@@ -51,6 +51,7 @@ class PrizePlant(FloweringPlant):
     
 class Garden():
     plants_counter = 0
+    total_growth = 0
     def __init__(self, name):
         self.name = name
         self.plants = []
@@ -65,6 +66,7 @@ class Garden():
         for plant in self.plants:
             plant.grow()
             print(f"{plant.name} grew 1cm")
+        total_growth += 1
 
     def count_plants_types(self):
             regular = 0
@@ -79,7 +81,21 @@ class Garden():
                     prize += 1
             print(f"Plants types: {regular} regular, {flowering} flowering, {prize} prize flowers")
     
-    
+    def report():
+        print(f"=== {self.name}'s Garden Report ===")
+        print("Plants in garden:")
+        for plant in self.plants:
+            print(f"- {plant.name}: {plant.height}cm", end = '')
+            if plant.type == "flowering"
+                print(f", {plant.color}flowers", end = '')
+                if plant.__is_blooming == 1:
+                    print(" (blooming)")
+                else:
+                    print("\n")
+            elif plant.type == "prize":
+                print(f", Prize points: {plant.prize_point}")
+        print(f"Plants added: {Garden.plants_counter}, Total growth: {Garden.total_growth}")
+        self.count_plants_types()
 
 
 class GardenManager():
