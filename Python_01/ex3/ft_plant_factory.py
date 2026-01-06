@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 class Plant:
+    """
+    Represents a plant with basic attributes.
+    Stores the plant's name, height in centimeters, and age in days.
+    """
     def __init__(self, name: str, height: int, age: int) -> None:
         self.name = name
         self.height = height
@@ -16,6 +20,11 @@ data = [
 
 
 def ft_plant_factory():
+    """
+    Create Plant objects from a predefined data list.
+    Instantiates plants from dictionary data and displays
+    creation details with a total count.
+    """
     print("=== Plant Factory Output ===")
     i = 0
     for item in data:
@@ -25,7 +34,3 @@ def ft_plant_factory():
             )
         i += 1
     print(f"\nTotal plants created: {i}")
-
-
-if __name__ == "__main__":
-    ft_plant_factory()
