@@ -42,3 +42,7 @@ def create_position():
     print("\nUnpacking demonstration")
     print(f"Player at x={x}, y={y}, z={z}")
     print(f"Coordinates: X={x}, Y={y}, Z={z}")
+
+
+if __name__ == "__main__":
+    create_position()

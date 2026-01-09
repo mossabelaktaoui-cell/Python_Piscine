@@ -1,4 +1,55 @@
-def inventory_info(data, player):
+
+data = {
+    'players': {
+        'alice': {
+            'items': {
+                'pixel_sword': 1, 'code_bow': 1, 'health_byte': 1,
+                'quantum_ring': 3
+            },
+            'total_value': 1875, 'item_count': 6
+        },
+        'bob': {
+            'items': {
+                'code_bow': 3, 'pixel_sword': 2
+            },
+            'total_value': 900, 'item_count': 5
+        },
+        'charlie': {
+            'items': {
+                'pixel_sword': 1, 'code_bow': 1
+            },
+            'total_value': 350, 'item_count': 2
+        },
+        'diana': {
+            'items': {
+                'code_bow': 3, 'pixel_sword': 3, 'health_byte': 3,
+                'data_crystal': 3
+            },
+            'total_value': 4125, 'item_count': 12
+        }
+    },
+    'catalog': {
+        'pixel_sword': {
+            'type': 'weapon', 'value': 150, 'rarity': 'common'
+        },
+        'quantum_ring': {
+            'type': 'accessory', 'value': 500, 'rarity': 'rare'
+        },
+        'health_byte': {
+            'type': 'consumable', 'value': 25, 'rarity': 'common'
+        },
+        'data_crystal': {
+            'type': 'material', 'value': 1000, 'rarity': 'legendary'
+        },
+        'code_bow': {
+            'type': 'weapon', 'value': 200, 'rarity': 'uncommon'
+        }
+    }
+}
+
+
+def display_inventory(data, player):
+    """Displays the inventory details of a player."""
     weapon = 0
     consumable = 0
     armor = 0
@@ -28,6 +79,7 @@ def inventory_info(data, player):
 
 
 def transe_weapons(data, sender, receiver, weapon, quantity):
+    """Transfers weapons between two players."""
     print(f"\n=== Transaction: {sender.capitalize()} gives "
           f"{receiver.capitalize()} {quantity} {weapon} ===")
     sender_data = data['players'][sender]
@@ -51,6 +103,7 @@ def transe_weapons(data, sender, receiver, weapon, quantity):
 
 
 def inventory_analytics(data, player):
+    """Analyzes and displays inventory statistics for a player."""
     player_data = data['players'][player]
     i = 0
 
@@ -68,7 +121,8 @@ def inventory_analytics(data, player):
             i += 1
     print()
 
-# if __name__ == "__main__":
-#     inventory_info(data, 'alice')
-#     transe_weapons(data, 'alice', 'bob', 'quantum_ring', 2)
-#     inventory_analytics(data, 'alice')
+
+if __name__ == "__main__":
+    display_inventory(data, 'alice')
+    transe_weapons(data, 'alice', 'bob', 'quantum_ring', 2)
+    inventory_analytics(data, 'alice')
