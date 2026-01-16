@@ -1,38 +1,50 @@
-def garden_operations():
-    """
-    Demonstrates handling of various Python exceptions. This function tests
-    different error types such as ValueError, ZeroDivisionError,
-    FileNotFoundError, and KeyError. It also shows how to handle multiple
-    exceptions together. Each exception is caught and its message is printed
-    to the console, allowing the program to continue execution.
-    """
+def garden_operations(operation_type):
+    if operation_type == "value_error":
+        return int("hello")
+
+    elif operation_type == "zero_div":
+        return 5 / 0
+
+    elif operation_type == "file_not_found":
+        return open("messing_file.txt", 'r')
+
+    elif operation_type == "key_error":
+        data = {"plant1": "rose"}
+        return data["missing_plant"]
+
+
+def test_error_types():
     print("=== Garden Error Types Demo ===\n")
+
     try:
         print("Testing ValueError...")
-        int("hello")
+        garden_operations("value_error")
     except ValueError as e:
         print(f"Caught ValueError: {e}\n")
+
     try:
         print("Testing ZeroDivisionError...")
-        5 / 0
+        garden_operations("zero_div")
     except ZeroDivisionError as e:
         print(f"Caught ZeroDivisionError: {e}\n")
+
     try:
         print("Testing FileNotFoundError...")
-        open("missing.txt")
+        garden_operations("file_not_found")
     except FileNotFoundError as e:
         print(f"Caught FileNotFoundError: {e}\n")
+
     try:
         print("Testing KeyError...")
-        data = {"plant1": "rose"}
-        print(data["missing_plant"])
+        garden_operations("key_error")
     except KeyError as e:
         print(f"Caught KeyError: {e}\n")
+
     try:
         print("Testing multiple errors together...")
-        int("hello")
-        5 / 0
-        open("missing.txt")
-    except (ValueError, ZeroDivisionError, FileNotFoundError):
-        print("Caught an error, but program continues!\n")
-    print("All error types tested successfully!")
+        for error_type in ["value_error", "zero_div",
+                           "file_not_found", "key_error"]:
+            garden_operations(error_type)
+    except (ValueError, ZeroDivisionError, FileNotFoundError, KeyError):
+        print("Caught an error, but program continues!")
+    print("\nAll error types tested successfully!")

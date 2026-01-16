@@ -11,19 +11,16 @@ class WaterError(GardenError):
 
 
 def check_water_tank(level):
-    """Check if the water tank level is sufficient."""
     if level < 5:
         raise WaterError("Not enough water in the tank!")
 
 
 def check_plant_watering(days, plant):
-    """Check if a plant needs watering based on days."""
     if days > 3:
         raise PlantError(f"The {plant} plant is wilting!")
 
 
 def ft_custom_errors():
-    """Demonstrate custom garden error handling."""
     print("=== Custom Garden Errors Demo ===\n")
     try:
         print("Testing PlantError...")
