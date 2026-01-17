@@ -1,5 +1,16 @@
 class GardenError(Exception):
-    pass
+    def __init__(self, message):
+        super().__init__(message)
+
+
+class PlantError(GardenError):
+    def __init__(self, message):
+        super().__init__(message)
+
+
+class WaterError(GardenError):
+    def __init__(self, message):
+        super().__init__(message)
 
 
 class Plant:
@@ -11,21 +22,32 @@ class Plant:
     def check_plant_health(self):
         try:
             if self.name == "":
-                raise GardenError("Error: Plant name cannot be empty!")
-            if self.water_level < 1 or self.water_level > 10:
-                raise GardenError(
+                raise PlantError("Error: Plant name cannot be empty!")
+            if self.water_level > 10:
+                raise PlantError(
                     f"Error checking {self.name}: Water level "
                     f"{self.water_level} is too high (max 10)"
                 )
-            if self.sunlight_hours < 2 or self.sunlight_hours > 12:
-                raise GardenError(
-                    "Error: Sunlight hours 0 is too low (min 2)"
+            elif self.water_level < 1:
+                raise PlantError(
+                    f"Error checking {self.name}: Water level "
+                    f"{self.water_level} is too low (min 1)"
+                )
+            if self.sunlight_hours < 2:
+                raise PlantError(
+                    f"Error checking {self.name}: Sunlight hours "
+                    f"{self.sunlight_hours} is too low (min 2)"
+                )
+            elif self.sunlight_hours > 12:
+                raise PlantError(
+                    f"Error checking {self.name}: Sunlight hours "
+                    f"{self.sunlight_hours} is too high (max 12)"
                 )
             print(
                 f"{self.name}: healthy (water: {self.water_level}, "
                 f"sun: {self.sunlight_hours})"
             )
-        except GardenError as e:
+        except PlantError as e:
             print(e)
 
 
@@ -38,12 +60,12 @@ class GardenManager:
         for plant in plants_list:
             try:
                 if plant.name == "":
-                    raise GardenError(
+                    raise PlantError(
                         "Error adding plant: Plant name cannot be empty!"
                     )
                 self.plants.append(plant)
                 print(f"Added {plant.name} successfully")
-            except GardenError as e:
+            except PlantError as e:
                 print(e)
 
     def water_plants(self):
@@ -53,7 +75,11 @@ class GardenManager:
                 plant.water_level += 1
                 print(f"Watering {plant.name} - success")
             self.water_tank -= 1
-        except GardenError as e:
+            if self.water_tank < 0:
+                raise WaterError(
+                    "Caught WaterError: Not enough water in tank"
+                )
+        except WaterError as e:
             print(e)
         finally:
             print("Closing watering system (cleanup)")
@@ -61,10 +87,10 @@ class GardenManager:
     def test_error_recovery(self):
         try:
             if self.water_tank <= 0:
-                raise GardenError(
-                    "Caught GardenError: Not enough water in tank"
+                raise WaterError(
+                    "Caught WaterError: Not enough water in tank"
                 )
-        except GardenError as e:
+        except WaterError as e:
             print(e)
         print("System recovered and continuing...")
 
