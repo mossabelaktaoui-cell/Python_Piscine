@@ -14,9 +14,9 @@ class WaterError(GardenError):
 
 
 class Plant:
-    def __init__(self, name, water_leverl, sunlight_hours):
+    def __init__(self, name, water_level, sunlight_hours):
         self.name = name
-        self.water_level = water_leverl
+        self.water_level = water_level
         self.sunlight_hours = sunlight_hours
 
     def check_plant_health(self):
