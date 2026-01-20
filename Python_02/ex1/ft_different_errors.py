@@ -48,3 +48,6 @@ def test_error_types():
     except (ValueError, ZeroDivisionError, FileNotFoundError, KeyError):
         print("Caught an error, but program continues!")
     print("\nAll error types tested successfully!")
+
+if __name__ == "__main__":
+    test_error_types()

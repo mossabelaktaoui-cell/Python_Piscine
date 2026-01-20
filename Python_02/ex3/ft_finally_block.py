@@ -17,3 +17,6 @@ def test_watering_system():
     print("\nTesting with error...")
     water_plants(["tomato", None, None])
     print("\nCleanup always happens, even with errors!")
+
+if __name__ == "__main__":
+    test_watering_system()

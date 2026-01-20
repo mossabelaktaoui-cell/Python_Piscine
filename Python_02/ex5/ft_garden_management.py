@@ -111,3 +111,6 @@ def test_garden_management():
     print("\nTesting error recovery...")
     garden_manager.test_error_recovery()
     print("\nGarden management system test complete!")
+
+if __name__ == "__main__":
+    test_garden_management()

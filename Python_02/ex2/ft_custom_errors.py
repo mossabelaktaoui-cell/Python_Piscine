@@ -42,3 +42,6 @@ def ft_custom_errors():
     except WaterError as e:
         print(f"Caught a garden error: {e}")
     print("\nAll custom error types work correctly!")
+
+if __name__ == "__main__":
+    ft_custom_errors()
