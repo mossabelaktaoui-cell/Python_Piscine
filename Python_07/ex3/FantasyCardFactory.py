@@ -59,7 +59,12 @@ class FantasyCardFactory(CardFactory):
         spells = []
         artifacts = []
         while len(deck.cards) < size:
-            card_type = FantasyCardFactory.get_random('card_type')
+            if len(deck.cards) < size / 3:
+                card_type = 'creature'
+            elif len(deck.cards) < (2 * size) / 3:
+                card_type = 'spell'
+            else:
+                card_type = 'artifact'
             
             if card_type == 'creature':
                 random_creature = FantasyCardFactory.get_random('creature', 'name')
@@ -89,7 +94,6 @@ class FantasyCardFactory(CardFactory):
     @staticmethod
     def get_random(card_type: str, attribute: str=None) -> str | int:
         pools = {
-            'card_type': ['creature', 'spell', 'artifact'],
             'creature': {
                 'name': [
                     'Fire Dragon', 'Goblin Warrior', 'Ice Wizard', 'Lightning Elemental',

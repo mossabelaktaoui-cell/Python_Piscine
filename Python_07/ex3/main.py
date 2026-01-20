@@ -11,7 +11,7 @@ def main() -> None:
     print(f"Factory: {factory.__class__.__name__}")
     print(f"Strategy: {strategy.get_strategy_name()}")
     print("Available types: ", end='')
-    print(factory.create_themed_deck(5))
+    print(factory.create_themed_deck(12))
 
     print("\nSimulating aggressive turn...")
 
