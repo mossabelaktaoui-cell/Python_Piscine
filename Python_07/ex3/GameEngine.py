@@ -5,6 +5,13 @@ from ex3.FantasyCardFactory import FantasyCardFactory as Fan
 
 
 class GameEngine:
+    def configure_engine(self, factory: CardFactory, strategy: GameStrategy) -> None:
+        player1 = factory.create_themed_deck(10)
+        player2 = factory.create_themed_deck(10)
+
+
+
+class GameEngine:
     players_hand = [[], [], [], [], []]
     deck = None
     battlefield = []
@@ -12,8 +19,10 @@ class GameEngine:
 
     def configure_engine(self, factory: CardFactory,
                          strategy: GameStrategy) -> None:
-        self.strategy = strategy
+
         deck_data = factory.create_themed_deck(40)
+
+        self.strategy = strategy
         self.deck = deck_data['deck']
         self.deck.shuffle()
 

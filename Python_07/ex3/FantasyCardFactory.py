@@ -62,19 +62,19 @@ class FantasyCardFactory(CardFactory):
         spells = [card for card in deck.cards if card.type == 'spell']
         artifacts = [card for card in deck.cards if card.type == 'artifact']
 
-        return ({
+        return {
             'deck': deck,
             'creatures': creatures,
             'spells': spells,
             'artifacts': artifacts
-        })
+        }
 
     def get_supported_types(self) -> dict:
-         return ['creature', 'spell', 'artifact']
+         return {'supported_types': ['creature', 'spell', 'artifact']}
 
     @staticmethod
     def get_random(card_type: str, attribute: str=None) -> str | int:
-        pools = {
+        data = {
             'creature': {
                 'name': [
                     'Fire Dragon', 'Goblin Warrior', 'Ice Wizard', 'Lightning Elemental',
@@ -112,25 +112,23 @@ class FantasyCardFactory(CardFactory):
         if attribute:
             attr = attribute.lower()
 
-        if card_type == 'card_type':
-            return choice(pools['card_type'])
-        elif card_type in ['cost', 'durability', 'attack', 'health', 'number']:
-            return choice(pools['number'])
+        if card_type in ['cost', 'durability', 'attack', 'health', 'number']:
+            return choice(data['number'])
         elif card_type == 'rarity':
-            return choice(pools['rarity'])
+            return choice(data['rarity'])
         elif card_type == 'creature':
             if attr == 'name':
-                return choice(pools['creature']['name'])
+                return choice(data['creature']['name'])
             elif attr == 'effect':
-                return choice(pools['creature']['effect'])
+                return choice(data['creature']['effect'])
         elif card_type == 'spell':
             if attr == 'name':
-                return choice(pools['spell']['name'])
+                return choice(data['spell']['name'])
             elif attr == 'effect_type':
-                return choice(pools['spell']['effect_type'])
+                return choice(data['spell']['effect_type'])
         elif card_type == 'artifact':
             if attr == 'name':
-                return choice(pools['artifact']['name'])
+                return choice(data['artifact']['name'])
             elif attr == 'effect':
-                return choice(pools['artifact']['effect'])
+                return choice(data['artifact']['effect'])
         return ""
