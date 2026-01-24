@@ -1,8 +1,7 @@
 import sys
 
 
-def ft_command_quest():
-    """Print program name and command-line arguments."""
+def ft_command_quest() -> None:
     args = sys.argv
     print("=== Command Quest ===")
     if len(args) <= 1:
@@ -15,3 +14,7 @@ def ft_command_quest():
         print(f"Argument {i}: {args[i]}")
         i += 1
     print(f"Total arguments: {len(args)}")
+
+
+if __name__ == "__main__":
+    ft_command_quest()

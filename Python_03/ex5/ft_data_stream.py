@@ -200,9 +200,7 @@ data = [{
         'data': {'level': 7,  'score_delta': -25, 'zone': 'pixel_zone_5'}}]
 
 
-def generate_events(data):
-    """Generator that yields events from the data list."""
-
+def generate_events(data: list):
     i = 0
     while i <= len(data) - 1:
         yield (f"Event {i + 1}: Player {data[i]['player']} "
@@ -210,15 +208,14 @@ def generate_events(data):
         i += 1
 
 
-def display_event_stream():
-    """Displays a stream of events."""
+def display_event_stream() -> None:
     print("=== Game Data Stream Processor ===\n")
     event_generator = generate_events(data)
     for _ in range(len(data)):
         print(next(event_generator))
 
 
-def stream_analytics():
+def stream_analytics() -> None:
     i = 0
     high_level_player = 0
     level_up_events = 0
@@ -240,7 +237,7 @@ def stream_analytics():
     print(f"Processing time: {(len(data) * 0.000045):.3f} seconds")
 
 
-def generator_demonstration():
+def generator_demonstration() -> None:
     print("\n=== Generator Demonstration ===")
     fibonacci_number = fibonacci_generator()
     print("Fibonacci sequence (first 10): ", end='')

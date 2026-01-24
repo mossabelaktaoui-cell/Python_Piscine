@@ -26,15 +26,13 @@ data = {
 }
 
 
-def display_players_data(data):
-    """Displays the achievements of all players."""
+def display_players_data(data: dict) -> None:
     print("=== Achievement Tracker System ===\n")
     for player, data in data.items():
         print(f"player {player} achievements: {set(data)}")
 
 
-def achievement_analytics(data):
-    """Analyzes and displays achievement statistics for all players."""
+def achievement_analytics(data: dict) -> None:
     players = list(data.keys())
     common_achievements = set(data[players[0]])
     unique_acheivements = set()
@@ -64,9 +62,7 @@ def achievement_analytics(data):
     print(f"Rare achievements (1 player): {difference_achievements}")
 
 
-def two_players_common(data, player1, player2):
-    """Compares achievements between two players
-    and displays common and unique ones."""
+def two_players_common(data: dict, player1: str, player2: str) -> None:
     common = set(data[player1]).intersection(set(data[player2]))
     player1_unique = set(data[player1]).difference(set(data[player2]))
     player2_unique = set(data[player2]).difference(set(data[player1]))

@@ -1,12 +1,11 @@
-
 data = {
     'players': {
         'alice': {
             'items': {
-                'pixel_sword': 1, 'code_bow': 1, 'health_byte': 1,
+                'pixel_sword': 7, 'code_bow': 1, 'health_byte': 1,
                 'quantum_ring': 3
             },
-            'total_value': 1875, 'item_count': 6
+            'total_value': 1875, 'item_count': 12
         },
         'bob': {
             'items': {
@@ -48,81 +47,149 @@ data = {
 }
 
 
-def display_inventory(data, player):
-    """Displays the inventory details of a player."""
-    weapon = 0
-    consumable = 0
-    armor = 0
-    player_data = data['players'][player]
+def inventory_system_analysis(data: dict, player: str) -> None:
+    unique_types = []
+    total_items = data['players'][player]['item_count']
 
-    print(f"\n=== {player.capitalize()}'s Inventory ===")
+    for item in data['players'][player]['items'].keys():
+        unique_types += [data['catalog'][item]['type']]
+    unique_types = len(set(unique_types))
 
-    for item in player_data['items'].keys():
-        print(f"{item} ({data['catalog'][item]['type']}, "
-              f"{data['catalog'][item]['rarity']}): "
-              f"{player_data['items'][item]}x @ "
-              f"{data['catalog'][item]['value']}"
-              " gold each = "
-              f"{player_data['items'][item] * data['catalog'][item]['value']}")
-
-        if data['catalog'][item]['type'] == 'weapon':
-            weapon += 1
-        elif data['catalog'][item]['type'] == 'consumable':
-            consumable += 1
-        elif data['catalog'][item]['type'] == 'armor':
-            armor += 1
-
-    print(f"\nInventory value: {player_data['total_value']} gold")
-    print(f"Item count: {player_data['item_count']} items")
-    print(f"Categories: weapon({weapon}), "
-          f"consumable({consumable}), armor({armor})")
+    print("=== Inventory System Analysis ===")
+    print(f"Total items in inventory: {total_items}")
+    print(f"Unique item types: {unique_types}")
 
 
-def transe_weapons(data, sender, receiver, weapon, quantity):
-    """Transfers weapons between two players."""
-    print(f"\n=== Transaction: {sender.capitalize()} gives "
-          f"{receiver.capitalize()} {quantity} {weapon} ===")
-    sender_data = data['players'][sender]
-    receiver_data = data['players'][receiver]
+def current_inventory(data: dict, player: str) -> None:
+    print("\n=== Current Inventory ===")
 
-    if sender_data['items'][weapon] < quantity:
-        print("Transaction failed!")
-        return
+    player_items = data['players'][player]['items']
+    total_count = data['players'][player]['item_count']
 
-    sender_data['items'][weapon] -= quantity
-    if weapon not in receiver_data['items'].keys():
-        receiver_data['items'].update({weapon: quantity})
+    types_count = {}
+    for item in player_items:
+        item_type = data['catalog'][item]['type']
+        if item_type in types_count.keys():
+            types_count[item_type] += player_items[item]
+        else:
+            types_count[item_type] = player_items[item]
+
+    for type_name, quantity in types_count.items():
+        percentage = (quantity / total_count) * 100
+        print(f"{type_name}: {quantity} units ({percentage:.1f}%)")
+
+
+def inventory_statistics(data: dict, player: str) -> None:
+    player_items = data['players'][player]['items']
+    types_count = {}
+
+    for item in player_items:
+        item_type = data['catalog'][item]['type']
+
+        if item_type in types_count.keys():
+            types_count[item_type] += player_items[item]
+        else:
+            types_count[item_type] = player_items[item]
+
+    most_abundant = ""
+    least_abundant = ""
+
+    for name, quantity in types_count.items():
+        if most_abundant == "" or least_abundant == "":
+            most_abundant = name
+            least_abundant = name
+
+        if types_count[most_abundant] < quantity:
+            most_abundant = name
+        if types_count[least_abundant] > quantity:
+            least_abundant = name
+
+    print("\n=== Inventory Statistics ===")
+    print(f"Most abundant: {most_abundant} "
+          f"({types_count[most_abundant]} units)")
+    print(f"Least abundant: {least_abundant} "
+          f"({types_count[least_abundant]} units)")
+
+
+def item_categories(data: dict, player: str) -> None:
+    player_items = data['players'][player]['items']
+    types_count = {}
+    moderate = {}
+    scarce = {}
+
+    for item in player_items:
+        item_type = data['catalog'][item]['type']
+
+        if item_type in types_count.keys():
+            types_count[item_type] += player_items[item]
+        else:
+            types_count[item_type] = player_items[item]
+
+    for type_, quantity in types_count.items():
+        if types_count[type_] >= 5:
+            moderate.update({type_: quantity})
+        else:
+            scarce.update({type_: quantity})
+
+    print("\n=== Item Categories ===")
+    print(f"Moderate: {moderate}")
+    print(f"Scarce: {scarce}")
+
+
+def management_suggestions(data: dict, player: str) -> None:
+    player_items = data['players'][player]['items']
+    types_count = {}
+    restock_needed = []
+
+    for item in player_items:
+        item_type = data['catalog'][item]['type']
+
+        if item_type in types_count.keys():
+            types_count[item_type] += player_items[item]
+        else:
+            types_count[item_type] = player_items[item]
+
+    for type_, quantity in types_count.items():
+        if quantity <= 1:
+            restock_needed += [type_]
+
+    print("\n=== Management Suggestions ===")
+    print(f"Restock needed: {restock_needed}")
+
+
+def dictionary_properties_demo(data: dict, player: str) -> None:
+    player_items = data['players'][player]['items']
+    types_count = {}
+    keys = []
+    values = []
+
+    for item in player_items:
+        item_type = data['catalog'][item]['type']
+
+        if item_type in types_count.keys():
+            types_count[item_type] += player_items[item]
+        else:
+            types_count[item_type] = player_items[item]
+
+    for key in types_count.keys():
+        keys += [key]
+    for value in types_count.values():
+        values += [value]
+
+    print("\n=== Dictionary Properties Demo ===")
+    print(f"Dictionary keys: {keys}")
+    print(f"Dictionary values: {values}")
+    print("Sample lookup - ", end="")
+    if keys[0] in types_count.keys():
+        print(f"'{keys[0]}' in inventory: True")
     else:
-        receiver_data['items'][weapon] += quantity
-
-    print("Transaction successful!")
-    print("\n=== Updated Inventories ===")
-    print(f"{sender.capitalize()} {weapon}: {sender_data['items'][weapon]}")
-    print(f"{receiver.capitalize()} {weapon}: "
-          f"{receiver_data['items'][weapon]}")
-
-
-def inventory_analytics(data, player):
-    """Analyzes and displays inventory statistics for a player."""
-    player_data = data['players'][player]
-    i = 0
-
-    print("\n=== Inventory Analytics ===")
-    print(f"Most valuable player: {player.capitalize()} "
-          f"({player_data['total_value']} gold)")
-    print(f"Most items: {player.capitalize()} "
-          f"({player_data['item_count']} items)")
-    print("Rasest items: ", end='')
-    for item in player_data['items'].keys():
-        if i != 0:
-            print(", ", end='')
-        if data['catalog'][item]['rarity'] == 'rare':
-            print(f"{item}", end='')
-            i += 1
-    print()
+        print(f"'{keys[0]}' in inventory: False")
 
 
 if __name__ == "__main__":
-    display_inventory(data, 'alice')
-    transe_weapons(data, 'alice', 'bob', 'quantum_ring', 2)
-    inventory_analytics(data, 'alice')
+    inventory_system_analysis(data, 'bob')
+    current_inventory(data, 'alice')
+    inventory_statistics(data, 'alice')
+    item_categories(data, 'alice')
+    management_suggestions(data, 'alice')
+    dictionary_properties_demo(data, 'alice')

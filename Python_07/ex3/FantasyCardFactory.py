@@ -9,87 +9,68 @@ from ex3.CardFactory import CardFactory
 
 class FantasyCardFactory(CardFactory):
     def create_creature(self, name_or_power: str | int | None = None) -> Card:
-            if isinstance(name_or_power, str):
-                name = name_or_power
-                cost = FantasyCardFactory.get_random('cost')
-            else:
-                name = FantasyCardFactory.get_random('creature', 'name')
-                cost = name_or_power
             return CreatureCard(
-                name,
-                cost,
-                FantasyCardFactory.get_random('rarity'),
-                FantasyCardFactory.get_random('attack'),
-                FantasyCardFactory.get_random('health'),
-                FantasyCardFactory.get_random('creature', 'effect'))
+                name_or_power,
+                self.get_random('cost'),
+                self.get_random('rarity'),
+                self.get_random('attack'),
+                self.get_random('health'),
+                self.get_random('creature', 'effect'))
 
     def create_spell(self, name_or_power: str | int | None = None) -> Card:
-        if isinstance(name_or_power, str):
-            name = name_or_power
-            cost = FantasyCardFactory.get_random('cost')
-        else:
-            name = FantasyCardFactory.get_random('spell', 'name')
-            cost = name_or_power
         return SpellCard(
-            name,
-            cost,
-            FantasyCardFactory.get_random('rarity'),
-            FantasyCardFactory.get_random('spell', 'effect_type')
+            name_or_power,
+            self.get_random('cost'),
+            self.get_random('rarity'),
+            self.get_random('spell', 'effect_type')
         )
 
     def create_artifact(self, name_or_power: str | int | None = None) -> Card:
-        if isinstance(name_or_power, str):
-            name = name_or_power
-            cost = FantasyCardFactory.get_random('cost')
-        else:
-            name = FantasyCardFactory.get_random('artifact', 'name')
-            cost = name_or_power
         return ArtifactCard(
-            name,
-            cost,
-            FantasyCardFactory.get_random('rarity'),
-            FantasyCardFactory.get_random('durability'),
-            FantasyCardFactory.get_random('artifact', 'effect')
+            name_or_power,
+            self.get_random('cost'),
+            self.get_random('rarity'),
+            self.get_random('durability'),
+            self.get_random('artifact', 'effect')
         )
 
     def create_themed_deck(self, size: int) -> dict:
 
         deck = Deck()
-        creatures = []
-        spells = []
-        artifacts = []
+
+        methods = {
+            'creature': self.create_creature,
+            'spell': self.create_spell,
+            'artifact': self.create_artifact
+        }
+
         while len(deck.cards) < size:
-            if len(deck.cards) < size / 3:
+            if len(deck.cards) < int(size / 3):
                 card_type = 'creature'
-            elif len(deck.cards) < (2 * size) / 3:
+            elif len(deck.cards) < int((2 * size) / 3):
                 card_type = 'spell'
             else:
                 card_type = 'artifact'
-            
-            if card_type == 'creature':
-                random_creature = FantasyCardFactory.get_random('creature', 'name')
-                creature = self.create_creature(random_creature)
-                deck.add_card(creature)
-                creatures.append(creature.name)
-            elif card_type == 'spell':
-                random_spell = FantasyCardFactory.get_random('spell', 'name')
-                spell = self.create_spell(random_spell)
-                deck.add_card(spell)
-                spells.append(spell.name)
-            elif card_type == 'artifact':
-                random_artifact = FantasyCardFactory.get_random('artifact', 'name')
-                artifact = self.create_artifact(random_artifact)
-                deck.add_card(artifact)
-                artifacts.append(artifact.name)
+
+            for name, method in methods.items():
+                if card_type == name:
+                    random_card = self.get_random(name, 'name')
+                    card = method(random_card)
+                    deck.add_card(card)
+     
+        creatures = [card for card in deck.cards if card.type == 'creature']
+        spells = [card for card in deck.cards if card.type == 'spell']
+        artifacts = [card for card in deck.cards if card.type == 'artifact']
 
         return ({
+            'deck': deck,
             'creatures': creatures,
             'spells': spells,
             'artifacts': artifacts
         })
 
     def get_supported_types(self) -> dict:
-        pass
+         return ['creature', 'spell', 'artifact']
 
     @staticmethod
     def get_random(card_type: str, attribute: str=None) -> str | int:
