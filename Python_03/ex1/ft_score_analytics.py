@@ -28,5 +28,6 @@ def ft_score_analytics() -> None:
     print(f"Low score: {min(list_args)}")
     print(f"Score range: {max(list_args) - min(list_args)}")
 
+
 if __name__ == "__main__":
     ft_score_analytics()
