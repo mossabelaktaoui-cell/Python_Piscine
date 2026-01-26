@@ -144,13 +144,11 @@ data = {
 
 
 def list_comprehension_example() -> None:
-    high_score_players = []
     doubled_scores = []
     active_players = []
 
-    for player in data['players']:
-        if data['players'][player]['total_score'] > 2000:
-            high_score_players.append(player)
+    high_score_players = [player for player in data['players']
+                          if data['players'][player]['total_score'] > 2000]
 
     i = 0
     while i < len(data['sessions']) - 1:
@@ -176,12 +174,11 @@ def list_comprehension_example() -> None:
 
 
 def dict_comprehension_example() -> None:
-    player_score = {}
     score_categories = {'high': 0, 'medium': 0, 'low': 0}
     achievement_counts = {}
 
-    for player in data['players'].keys():
-        player_score.update({player: data['players'][player]['total_score']})
+    player_score = {player: data['players'][player]['total_score']
+                    for player in data['players'].keys()}
 
     high = 0
     medium = 0
@@ -271,7 +268,7 @@ def combined_analysis() -> None:
 
 
 if __name__ == "__main__":
-    print("=== Game Analytics Dashboard ===\n")
+    print("=== Game Analytics Dashboard ===")
     list_comprehension_example()
     dict_comprehension_example()
     set_comprehension_example()

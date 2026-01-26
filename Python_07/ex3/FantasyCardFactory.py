@@ -9,13 +9,13 @@ from ex3.CardFactory import CardFactory
 
 class FantasyCardFactory(CardFactory):
     def create_creature(self, name_or_power: str | int | None = None) -> Card:
-            return CreatureCard(
-                name_or_power,
-                self.get_random('cost'),
-                self.get_random('rarity'),
-                self.get_random('attack'),
-                self.get_random('health'),
-                self.get_random('creature', 'effect'))
+        return CreatureCard(
+            name_or_power,
+            self.get_random('cost'),
+            self.get_random('rarity'),
+            self.get_random('attack'),
+            self.get_random('health'),
+            self.get_random('creature', 'effect'))
 
     def create_spell(self, name_or_power: str | int | None = None) -> Card:
         return SpellCard(
@@ -57,10 +57,16 @@ class FantasyCardFactory(CardFactory):
                     random_card = self.get_random(name, 'name')
                     card = method(random_card)
                     deck.add_card(card)
-     
-        creatures = [card for card in deck.cards if card.type == 'creature']
-        spells = [card for card in deck.cards if card.type == 'spell']
-        artifacts = [card for card in deck.cards if card.type == 'artifact']
+
+        creatures = [
+            card.name for card in deck.cards if card.type == 'creature'
+        ]
+        spells = [
+            card.name for card in deck.cards if card.type == 'spell'
+        ]
+        artifacts = [
+            card.name for card in deck.cards if card.type == 'artifact'
+        ]
 
         return {
             'deck': deck,
@@ -70,29 +76,35 @@ class FantasyCardFactory(CardFactory):
         }
 
     def get_supported_types(self) -> dict:
-         return {'supported_types': ['creature', 'spell', 'artifact']}
+        return {'supported_types': ['creature', 'spell', 'artifact']}
 
     @staticmethod
-    def get_random(card_type: str, attribute: str=None) -> str | int:
+    def get_random(card_type: str, attribute: str = None) -> str | int:
         data = {
             'creature': {
                 'name': [
-                    'Fire Dragon', 'Goblin Warrior', 'Ice Wizard', 'Lightning Elemental',
-                    'Stone Golem', 'Shadow Assassin', 'Healing Angel', 'Forest Sprite'
+                    'Fire Dragon', 'Goblin Warrior',
+                    'Ice Wizard', 'Lightning Elemental',
+                    'Stone Golem', 'Shadow Assassin',
+                    'Healing Angel', 'Forest Sprite'
                 ],
                 'effect': ['damage', 'heal', 'buff', 'debuff']
             },
             'spell': {
                 'name': [
-                    'Lightning Bolt', 'Healing Potion', 'Fireball', 'Shield Spell',
-                    'Meteor', 'Ice Shard', 'Divine Light', 'Magic Missile'
+                    'Lightning Bolt', 'Healing Potion',
+                    'Fireball', 'Shield Spell',
+                    'Meteor', 'Ice Shard',
+                    'Divine Light', 'Magic Missile'
                 ],
                 'effect_type': ['damage', 'heal', 'buff']
             },
             'artifact': {
                 'name': [
-                    'Mana Crystal', 'Sword of Power', 'Ring of Wisdom', 'Shield of Defense',
-                    'Crown of Kings', 'Boots of Speed', 'Cloak of Shadows', 'Staff of Elements'
+                    'Mana Crystal', 'Sword of Power',
+                    'Ring of Wisdom', 'Shield of Defense',
+                    'Crown of Kings', 'Boots of Speed',
+                    'Cloak of Shadows', 'Staff of Elements'
                 ],
                 'effect': [
                     'Permanent: +1 mana per turn',
