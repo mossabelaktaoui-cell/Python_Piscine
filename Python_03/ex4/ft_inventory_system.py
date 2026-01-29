@@ -11,7 +11,7 @@ def inventory_system_analysis(player_items: dict) -> None:
     total_items = 0
     for item in player_items:
         total_items += int(player_items[item])
-    
+
     print("=== Inventory System Analysis ===")
     print(f"Total items in inventory: {total_items}")
     print(f"Unique item types: {unique_types}")
@@ -42,7 +42,6 @@ def inventory_statistics(player_items: dict) -> None:
             most_abundant = item
         if player_items[least_abundant] > quantity:
             least_abundant = item
-
 
     print("\n=== Inventory Statistics ===")
     print(f"Most abundant: {most_abundant} "
@@ -122,6 +121,7 @@ def main():
     item_categories(player_items)
     management_suggestions(player_items)
     dictionary_properties_demo(player_items)
+
 
 if __name__ == "__main__":
     main()
