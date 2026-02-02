@@ -34,5 +34,6 @@ def test_plant_checks():
 
     print("\nAll error raising tests completed!")
 
+
 if __name__ == "__main__":
     test_plant_checks()

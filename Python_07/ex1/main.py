@@ -1,4 +1,3 @@
-from ex0.Card import Card
 from ex0.CreatureCard import CreatureCard
 from ex1.SpellCard import SpellCard
 from ex1.ArtifactCard import ArtifactCard
@@ -7,18 +6,18 @@ from ex1.Deck import Deck
 
 def main() -> None:
     deck = Deck()
-    
+
     card1 = SpellCard(name="Lightning Bolt",
                       cost=3,
                       rarity="Common",
                       effect_type="damage")
-    
+
     card2 = ArtifactCard(name="Mana Crystal",
                          cost=2,
                          rarity="Common",
                          durability=5,
                          effect="Permanent: +1 mana per turn")
-    
+
     card3 = CreatureCard(name="Fire Dragon",
                          cost=5,
                          rarity="Legendary",
@@ -51,7 +50,9 @@ def main() -> None:
     print("Play result:", end='')
     print(card3.play({}))
 
-    print("\nPolymorphism in action: Same interface, different card behaviors!")
+    print("\nPolymorphism in action: Same interface, "
+          "different card behaviors!")
+
 
 if __name__ == "__main__":
     main()

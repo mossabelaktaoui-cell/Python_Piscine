@@ -4,6 +4,7 @@ from random import choice
 
 class Deck:
     cards = []
+
     def add_card(self, card: Card) -> None:
         self.cards.append(card)
 
@@ -33,9 +34,12 @@ class Deck:
         return drawed_card
 
     def get_deck_stats(self) -> dict:
-        creature_number = len([card for card in self.cards if card.type == 'creature'])
-        spell_number = len([card for card in self.cards if card.type == 'spell'])
-        artifact_number = len([card for card in self.cards if card.type == 'artifact'])
+        creature_number = len([card for card in self.cards
+                               if card.type == 'creature'])
+        spell_number = len([card for card in self.cards
+                            if card.type == 'spell'])
+        artifact_number = len([card for card in self.cards
+                               if card.type == 'artifact'])
         total_cost = sum([card.cost for card in self.cards])
         avg_cost = total_cost / len(self.cards)
         deck_stats = {

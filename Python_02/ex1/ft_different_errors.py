@@ -49,5 +49,6 @@ def test_error_types():
         print("Caught an error, but program continues!")
     print("\nAll error types tested successfully!")
 
+
 if __name__ == "__main__":
     test_error_types()

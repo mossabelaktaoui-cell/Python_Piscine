@@ -1,9 +1,11 @@
 from ex0.CreatureCard import CreatureCard
 
-def main():
-    card1 = CreatureCard("Fire Dragon", 5, "Legendary", 7, 5, "Creature summoned to battlefield")
-    card2 = CreatureCard("Goblin Warrior", 3, "Common", 2, 7, "Creature summoned to battlefield")
 
+def main():
+    card1 = CreatureCard("Fire Dragon", 5, "Legendary",
+                         7, 5, "Creature summoned to battlefield")
+    card2 = CreatureCard("Goblin Warrior", 3, "Common",
+                         2, 7, "Creature summoned to battlefield")
 
     print("\n=== DataDeck Card Foundation ===\n")
     print("Testing Abstract Base Class Design:\n")
@@ -27,6 +29,7 @@ def main():
     print(f"Playable: {playable}")
 
     print("\nAbstract pattern successfully demonstrated!")
+
 
 if __name__ == "__main__":
     main()

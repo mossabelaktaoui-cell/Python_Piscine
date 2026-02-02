@@ -17,9 +17,9 @@ def main() -> None:
 
     print("\nCombat phase:")
 
-    print(f"Attack result: ", end='')
+    print("Attack result: ", end='')
     print(combat_result['attack'])
-    print(f"Defend result: ", end='')
+    print("Defend result: ", end='')
     print(combat_result['defense'])
 
     print("\nMagic phase:")

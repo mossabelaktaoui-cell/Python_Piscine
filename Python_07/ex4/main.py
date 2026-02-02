@@ -1,7 +1,8 @@
 from ex4.TournamentCard import TournamentCard
 from ex4.TournamentPlatform import TournamentPlatform
 
-if __name__ == "__main__":
+
+def main():
     print("\n=== DataDeck Tournament Platform ===\n")
 
     platform = TournamentPlatform()
@@ -28,3 +29,7 @@ if __name__ == "__main__":
 
     print("\n=== Tournament Platform Successfully Deployed! ===")
     print("All abstract patterns working together harmoniously!")
+
+
+if __name__ == "__main__":
+    main()

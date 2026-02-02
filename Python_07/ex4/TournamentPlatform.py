@@ -3,7 +3,8 @@ from ex4.TournamentCard import TournamentCard
 
 class TournamentPlatform:
     matches_played = 0
-    def __init__(self):
+
+    def __init__(self) -> None:
         self.registered_card = {}
         self.winner = None
         self.loser = None
@@ -47,16 +48,22 @@ class TournamentPlatform:
         }
 
     def get_leaderboard(self) -> list:
+        result = ""
         cards = self.sort_cards()
         leaderboard = []
         i = 1
+
         for card in cards:
             leaderboard.append(
                 f"{i}. {card.name} - "
                 f"Rating: "f"{card.calculate_rating()}"
                 f" ({card.record})")
             i += 1
-        return leaderboard
+
+        for line in leaderboard:
+            result += line + "\n"
+
+        return result
 
     def generate_tournament_report(self) -> dict:
         ratings = [card.calculate_rating() for card
@@ -70,10 +77,9 @@ class TournamentPlatform:
             'platform_status': self.status
         }
 
-
     def sort_cards(self) -> list:
         cards = list(self.registered_card.values())
-        
+
         n = len(cards)
         for i in range(n):
             for j in range(i + 1, n):
