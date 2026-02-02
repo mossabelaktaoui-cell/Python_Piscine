@@ -2,7 +2,7 @@ from ex0.CreatureCard import CreatureCard
 
 def main():
     card1 = CreatureCard("Fire Dragon", 5, "Legendary", 7, 5, "Creature summoned to battlefield")
-    card2 = CreatureCard("Goblin Warrior", 3, "Common", 2, 4, "Creature summoned to battlefield")
+    card2 = CreatureCard("Goblin Warrior", 3, "Common", 2, 7, "Creature summoned to battlefield")
 
 
     print("\n=== DataDeck Card Foundation ===\n")

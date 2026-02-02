@@ -38,8 +38,9 @@ class CreatureCard(Card):
             'attacker': self.name,
             'target': target.name,
             'damage_dealt': self.attack,
-            'combat_resolved': True
+            'combat_resolved': False
         }
-        if self.health <= 0:
-            data['combat_resolved'] = False
+        target.health -= self.attack
+        if target.health <= 0:
+            data['combat_resolved'] = True
         return data
