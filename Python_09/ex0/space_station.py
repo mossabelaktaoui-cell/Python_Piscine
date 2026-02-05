@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field, ValidationError
 from datetime import datetime
+from typing import Optional
 
 
 class SpaceStaion(BaseModel):
@@ -10,33 +11,53 @@ class SpaceStaion(BaseModel):
     oxygen_level: float = Field(ge=0.0, le=100.0)
     last_maintenance: datetime
     is_operational: bool = True
-    notes: str = Field(max_length=200, default=None)
+    notes: Optional[str] = Field(max_length=200, default=None)
 
-def display_station_info(spacestation: SpaceStaion)
+
+def display_station_info(spacestation: SpaceStaion):
+    print("Valid station created:")
+    print(
+        f"ID: {spacestation.station_id}\n"
+        f"Name: {spacestation.name}\n"
+        f"Crew: {spacestation.crew_size} peaple\n"
+        f"Power: {spacestation.power_level}%\n"
+        f"Oxygen: {spacestation.oxygen_level}:%\n"
+        f"Status: {"Operational" if spacestation.is_operational
+                   else "Not operational"}\n")
+
 
 def main():
     print("Space Station Data Validation")
     print("========================================")
     try:
-        space = SpaceStaion(station_id="ISS001",
-                            name="Internatonal Space Station",
-                            crew_size=60,
-                            power_level=85.5,
-                            oxygen_level=92.3,
-                            is_operational=True)
+        space1 = SpaceStaion(station_id="ISS001",
+                             name="Internatonal Space Station",
+                             crew_size=6,
+                             power_level=85.5,
+                             oxygen_level=92.3,
+                             last_maintenance=datetime.now(),
+                             is_operational=True)
+        display_station_info(space1)
 
-        print("Valid station created:")
-        print(
-            f"ID: {space.station_id}\n"
-            f"Name: {space.name}\n"
-            f"Crew: {space.crew_size} peaple\n"
-            f"Power: {space.power_level}%\n"
-            f"Oxygen: {space.oxygen_level}:%\n"
-            f"Status: {"Operational" if space.is_operational else "Not operational"}\n"
-        )
     except ValidationError as e:
         print("Expected validation error:")
         print(e)
+
+    print("========================================")
+    try:
+        space2 = SpaceStaion(station_id="ISS002",
+                             name="Internatonal Space Station",
+                             crew_size=60,
+                             power_level=85.5,
+                             oxygen_level=92.3,
+                             last_maintenance=datetime.now(),
+                             is_operational=True)
+        display_station_info(space2)
+
+    except ValidationError as e:
+        print("Expected validation error:")
+        print(e.errors()[0]['msg'])
+
 
 if __name__ == "__main__":
     main()
