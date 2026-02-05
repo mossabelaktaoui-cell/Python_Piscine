@@ -127,27 +127,32 @@ def stream_processor() -> None:
         print(f"Result {i}: {item.process(data)}")
         i += 1
 
-# def test_foundation():
-#     print("=== CODE NEXUS - DATA PROCESSOR FOUNDATION ===")
 
-#     num_proc = NumericProcessor()
-#     txt_proc = TextProcessor()
-#     log_proc = LogProcessor()
+def test_foundation():
+    print("=== CODE NEXUS - DATA PROCESSOR FOUNDATION ===")
 
-#     initialize_numeric(num_proc, [1, 2, 3, 4, 5])
-#     initialize_text(txt_proc, "Hello Nexus World")
-#     initialize_log(log_proc, "ERROR: Connection timeout")
+    num_proc = NumericProcessor()
+    txt_proc = TextProcessor()
+    log_proc = LogProcessor()
 
-#     print("\n=== Polymorphic Processing Demo ===")
-#     print("Processing multiple data types through same interface...")
+    initialize_numeric(num_proc, [1, 2, 3, 4, 5])
+    initialize_text(txt_proc, "Hello Nexus World")
+    initialize_log(log_proc, "ERROR: Connection timeout")
 
-#     processors = [num_proc, txt_proc, log_proc]
-#     test_data = [[1, 2, 3], "Nexus System", "INFO: System ready"]
+    print("\n=== Polymorphic Processing Demo ===")
+    print("Processing multiple data types through same interface...")
 
-#     i = 0
-#     while i < len(processors):
-#         result = processors[i].process(test_data[i])
-#         print(f"Result {i + 1}: {result}")
-#         i += 1
+    processors = [num_proc, txt_proc, log_proc]
+    test_data = [[1, 2, 3], "Nexus System", "INFO: System ready"]
 
-#     print("\nFoundation systems online. Nexus ready for advanced streams")
+    i = 0
+    while i < len(processors):
+        result = processors[i].process(test_data[i])
+        print(f"Result {i + 1}: {result}")
+        i += 1
+
+    print("\nFoundation systems online. Nexus ready for advanced streams")
+
+
+if __name__ == "__main__":
+    test_foundation()

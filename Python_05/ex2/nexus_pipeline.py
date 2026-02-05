@@ -3,13 +3,13 @@ from typing import Any, Dict, Union, Protocol
 
 
 class ProcessingStage(Protocol):
-    def process(data) -> Any:
+    def process(self, data: Any) -> Any:
         pass
 
 
 class InputStage():
 
-    def process(self, data) -> Dict:
+    def process(self, data: Any) -> Dict:
         if isinstance(data, dict) and "value" in data:
             try:
                 data["value"] = int(data["value"])
@@ -43,8 +43,8 @@ class InputStage():
             raise ValueError("Error detected in Stage 1: Indalid data format")
 
 
-class TransfomStage():
-    def process(self, data) -> Dict:
+class TransformStage():
+    def process(self, data: Any) -> Dict:
         if isinstance(data, dict) and "value" in data:
             new_data = {
                 "range": "", "status": "Enriched with metadata and validation",
@@ -80,7 +80,7 @@ class TransfomStage():
 
 
 class OutputStage():
-    def process(self, data) -> str:
+    def process(self, data: Any) -> str:
         if isinstance(data, dict) and "value" in data["data"]:
             data = (
                 f"Transform: {data['status']}\n"
@@ -108,11 +108,11 @@ class OutputStage():
 
 
 class ProcessingPipeline(ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.stages = []
 
-    def add_stage(self, stage):
+    def add_stage(self, stage: ProcessingStage) -> None:
         self.stages.append(stage)
 
     @abstractmethod
@@ -121,7 +121,7 @@ class ProcessingPipeline(ABC):
 
 
 class JSONAdapter(ProcessingPipeline):
-    def __init__(pipeline_id):
+    def __init__(self, pipeline_id: str) -> None:
         super().__init__()
 
     def process(self, data: Any) -> Union[str, Any]:
@@ -136,7 +136,7 @@ Input: {data_backup}
 
 
 class CSVAdapter(ProcessingPipeline):
-    def __init__(pipeline_id):
+    def __init__(self, pipeline_id: str) -> None:
         super().__init__()
 
     def process(self, data: Any) -> Union[str, Any]:
@@ -155,7 +155,7 @@ Input: {data_backup}
 
 
 class StreamAdapter(ProcessingPipeline):
-    def __init__(pipeline_id):
+    def __init__(self, pipeline_id: str) -> None:
         super().__init__()
 
     def process(self, data: Any) -> Union[str, Any]:
@@ -168,19 +168,19 @@ Input: Real-time sensor stream
 
 
 class NexusManager():
-    def __init__(self):
+    def __init__(self) -> None:
         self.pipelines = []
 
-    def add_pipeline(self, pipeline):
+    def add_pipeline(self, pipeline: ProcessingPipeline) -> None:
         self.pipelines.append(pipeline)
 
-    def process_data(self, data):
+    def process_data(self, data: Any) -> None:
         i = 0
         for pipeline in self.pipelines:
             print(pipeline.process(data[i]))
             i += 1
 
-    def demo_chaining(self):
+    def demo_chaining(self) -> None:
         print("\n=== Pipeline Chaining Demo ===")
         print("Pipeline A -> Pipeline B -> Pipeline C")
         print("Data flow: Raw -> Processed -> Analyzed -> Stored")
@@ -204,7 +204,7 @@ class NexusManager():
 #     print("Stage 1: Input validation and parsing")
 #     json_pipe.add_stage(InputStage())
 #     print("Stage 2: Data transformation and enrichment")
-#     json_pipe.add_stage(TransfomStage())
+#     json_pipe.add_stage(TransformStage())
 #     print("Stage 3: Output formatting and delivery")
 #     json_pipe.add_stage(OutputStage())
 
@@ -214,7 +214,7 @@ class NexusManager():
 #     stream_pipe = StreamAdapter()
 #     for p in [csv_pipe, stream_pipe]:
 #         p.add_stage(InputStage())
-#         p.add_stage(TransfomStage())
+#         p.add_stage(TransformStage())
 #         p.add_stage(OutputStage())
 #         nexusmanager.add_pipeline(p)
 

@@ -17,15 +17,15 @@ class DataStream(ABC):
 
 
 class SensorStream(DataStream):
-    def __init__(self, stream_id: str):
+    def __init__(self, stream_id: str) -> None:
         super().__init__()
         self.stream_id = stream_id
         self.readings_processed = 0
 
     def process_batch(self, data_batch: List[Any]) -> str:
-        total = 0
-        i = 0
-        filtered_data = []
+        total: int = 0
+        i: int = 0
+        filtered_data: List[float] = []
         for data in data_batch:
             unite, value = data.split(":")
             if unite == "temp":
@@ -33,7 +33,7 @@ class SensorStream(DataStream):
         while i < len(filtered_data):
             total += filtered_data[i]
             i += 1
-        average = total / len(filtered_data)
+        average: float = total / len(filtered_data)
         self.readings_processed = len(data_batch)
         return (
             f"Initializing Sensor Stream...\n"
@@ -45,7 +45,7 @@ class SensorStream(DataStream):
 
     def filter_data(self, data_batch: List[Any],
                     criteria: Optional[str] = None) -> List[Any]:
-        filtered_data = []
+        filtered_data: List[Any] = []
         for data in data_batch:
             unite, value = data.split(":")
             if unite == "temp":
@@ -59,13 +59,13 @@ class SensorStream(DataStream):
 
 
 class TransactionStream(DataStream):
-    def __init__(self, trans_id: str):
+    def __init__(self, trans_id: str) -> None:
         super().__init__()
         self.trans_id = trans_id
         self.operations = 0
 
     def process_batch(self, data_batch: List[Any]) -> str:
-        net_flow = 0
+        net_flow: int = 0
         for data in data_batch:
             trans, value = data.split(":")
             if trans == "sell":
@@ -73,7 +73,9 @@ class TransactionStream(DataStream):
             elif trans == "buy":
                 net_flow += int(value)
         if net_flow > 0:
-            net_flow = f"+{net_flow}"
+            net_flow_str: str = f"+{net_flow}"
+        else:
+            net_flow_str: str = str(net_flow)
 
         self.operations = len(data_batch)
         return (
@@ -81,12 +83,12 @@ class TransactionStream(DataStream):
             f"Stream ID: {self.trans_id}, Type: Financial Data\n"
             f"Processing transaction batch: {data_batch}\n"
             f"Transaction analysis: {self.operations} operations, "
-            f"net flow: {net_flow} units"
+            f"net flow: {net_flow_str} units"
         )
 
     def filter_data(self, data_batch: List[Any],
                     criteria: Optional[str] = None) -> List[Any]:
-        filtered_data = []
+        filtered_data: List[Any] = []
         for data in data_batch:
             trans, value = data.split(":")
             if trans == criteria:
@@ -100,13 +102,13 @@ class TransactionStream(DataStream):
 
 
 class EventStream(DataStream):
-    def __init__(self, event_id: str):
+    def __init__(self, event_id: str) -> None:
         super().__init__()
         self.event_id = event_id
         self.events = 0
 
     def process_batch(self, data_batch: List[Any]) -> str:
-        errors_detected = 0
+        errors_detected: int = 0
         for event in data_batch:
             if "error" in event.lower():
                 errors_detected += 1
@@ -121,7 +123,7 @@ class EventStream(DataStream):
 
     def filter_data(self, data_batch: List[Any],
                     criteria: Optional[str] = None) -> List[Any]:
-        filtered_data = []
+        filtered_data: List[Any] = []
         for data in data_batch:
             if data == criteria:
                 filtered_data.append(data)
@@ -134,10 +136,10 @@ class EventStream(DataStream):
 
 
 class StreamProcessor():
-    def __init__(self, streams: List[DataStream]):
+    def __init__(self, streams: List[DataStream]) -> None:
         self.streams: List[DataStream] = streams
 
-    def stream_info(self):
+    def stream_info(self) -> None:
         print("\n=== Polymorphic Stream Processor ===")
         print("Processing mixed stream types through a unified interface...")
         print("\nBatch 1 Results")
