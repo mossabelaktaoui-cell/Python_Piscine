@@ -3,11 +3,13 @@ from datetime import datetime
 from typing import Optional
 from enum import Enum
 
+
 class ContactType(str, Enum):
     RADIO = "radio"
     VISUAL = "visual"
     PHYSICAL = "physical"
     TELEPATHIC = "telepathic"
+
 
 class AlienContact(BaseModel):
     contact_id: str = Field(min_length=5, max_length=15)
@@ -21,16 +23,17 @@ class AlienContact(BaseModel):
     is_verified: bool = False
 
     @model_validator(mode="after")
-    def validate(cls, model):
-        if not model.contact_id.startswith("AC"):
-            raise TypeError('Contact ID must start with "AC"')
-        if model.is_verified == False:
-            raise TypeError('Physical contact reports must be verified')
-        if model.witness_count < 3:
-            raise TypeError('Telepathic contact require at least 3 witnesses')
-        if model.signal_strength <= 7.0:
-            raise TypeError('Strong signals must be more than 7')
-        return model
+    def validate(self):
+        if not self.contact_id.startswith("AC"):
+            raise ValueError('Contact ID must start with "AC"')
+        if self.is_verified is False:
+            raise ValueError('Physical contact reports must be verified')
+        if self.witness_count < 3:
+            raise ValueError('Telepathic contact require at least 3 witnesses')
+        if self.signal_strength <= 7.0:
+            raise ValueError('Strong signals must be more than 7')
+        return self
+
 
 def display_contact_info(contact: AlienContact):
     print(
@@ -42,14 +45,14 @@ def display_contact_info(contact: AlienContact):
           f"Duration: {contact.duration_minutes} minutes\n"
           f"Witnesses: {contact.witness_count}")
     if contact.message_received:
-        print(f"Message: '{contact.message_received}'")
+        print(f"Message: '{contact.message_received}'\n")
+
 
 def main():
     print("Alien Contact Log Validation")
-    print("======================================")
-
     try:
-        contact = AlienContact(
+        print("======================================")
+        contact1 = AlienContact(
             contact_id="AC_2024_001",
             timestamp=datetime.now(),
             contact_type="radio",
@@ -60,11 +63,38 @@ def main():
             message_received="Greetings from Zeta Reticuli",
             is_verified=True
         )
+        display_contact_info(contact1)
 
-        display_contact_info(contact)
-    except (ValidationError, TypeError) as e:
+    except ValidationError as e:
         print("Expected validation error:")
-        print(e)  # .errors()[0]['msg']
+        for err in e.errors():
+            if 'error' in err['ctx']:
+                print(err['ctx']['error'])
+            else:
+                print(err['msg'])
+
+    try:
+        print("======================================")
+        contact2 = AlienContact(
+            contact_id="AC_2024_001",
+            timestamp=datetime.now(),
+            contact_type="radio",
+            location="Area 51, Nevada",
+            signal_strength=8.5,
+            duration_minutes=45,
+            witness_count=1,
+            message_received="Greetings from Zeta Reticuli",
+            is_verified=True
+        )
+        display_contact_info(contact2)
+
+    except ValidationError as e:
+        print("Expected validation error:")
+        for err in e.errors():
+            if 'error' in err['ctx']:
+                print(err['ctx']['error'])
+            else:
+                print(err['msg'])
 
 
 if __name__ == "__main__":

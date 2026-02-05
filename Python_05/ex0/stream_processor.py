@@ -128,7 +128,7 @@ def stream_processor() -> None:
         i += 1
 
 
-def test_foundation():
+def main():
     print("=== CODE NEXUS - DATA PROCESSOR FOUNDATION ===")
 
     num_proc = NumericProcessor()
@@ -155,4 +155,4 @@ def test_foundation():
 
 
 if __name__ == "__main__":
-    test_foundation()
+    main()

@@ -192,40 +192,44 @@ class NexusManager():
         print("Performance: 100% efficiency, 0.2s total processing time")
 
 
-# def test():
-#     print("=== CODE NEXUS - ENTERPRISE PIPELINE SYSTEM ===\n")
-#     print("Initializing Nexus Manager...")
-#     print("Pipeline capacity: 1000 streams/second\n")
+def main():
+    print("=== CODE NEXUS - ENTERPRISE PIPELINE SYSTEM ===\n")
+    print("Initializing Nexus Manager...")
+    print("Pipeline capacity: 1000 streams/second\n")
 
-#     nexusmanager = NexusManager()
+    nexusmanager = NexusManager()
 
-#     print("Creating Data Processing Pipeline...")
-#     json_pipe = JSONAdapter()
-#     print("Stage 1: Input validation and parsing")
-#     json_pipe.add_stage(InputStage())
-#     print("Stage 2: Data transformation and enrichment")
-#     json_pipe.add_stage(TransformStage())
-#     print("Stage 3: Output formatting and delivery")
-#     json_pipe.add_stage(OutputStage())
+    print("Creating Data Processing Pipeline...")
+    json_pipe = JSONAdapter("id")
+    print("Stage 1: Input validation and parsing")
+    json_pipe.add_stage(InputStage())
+    print("Stage 2: Data transformation and enrichment")
+    json_pipe.add_stage(TransformStage())
+    print("Stage 3: Output formatting and delivery")
+    json_pipe.add_stage(OutputStage())
 
-#     nexusmanager.add_pipeline(json_pipe)
+    nexusmanager.add_pipeline(json_pipe)
 
-#     csv_pipe = CSVAdapter()
-#     stream_pipe = StreamAdapter()
-#     for p in [csv_pipe, stream_pipe]:
-#         p.add_stage(InputStage())
-#         p.add_stage(TransformStage())
-#         p.add_stage(OutputStage())
-#         nexusmanager.add_pipeline(p)
+    csv_pipe = CSVAdapter("id")
+    stream_pipe = StreamAdapter("id")
+    for p in [csv_pipe, stream_pipe]:
+        p.add_stage(InputStage())
+        p.add_stage(TransformStage())
+        p.add_stage(OutputStage())
+        nexusmanager.add_pipeline(p)
 
-#     print("\n=== Multi-Format Data Processing ===")
+    print("\n=== Multi-Format Data Processing ===")
 
-#     input_data = [
-#         {"sensor": "temp", "value": 25, "unit": "C"},
-#         ["user", "action", "timestamp"],
-#         {"temp 1": "22", "humidity": "45", "temp 2": "18"}
-#     ]
+    input_data = [
+        {"sensor": "temp", "value": 25, "unit": "C"},
+        ["user", "action", "timestamp"],
+        {"temp 1": "22", "humidity": "45", "temp 2": "18"}
+    ]
 
-#     nexusmanager.process_data(input_data)
-#     nexusmanager.demo_chaining()
-#     print("\nNexus Integration complete. All systems operational.")
+    nexusmanager.process_data(input_data)
+    nexusmanager.demo_chaining()
+    print("\nNexus Integration complete. All systems operational.")
+
+
+if __name__ == "__main__":
+    main()

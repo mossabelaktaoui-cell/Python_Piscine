@@ -154,23 +154,27 @@ class StreamProcessor():
               "Nexus throughput optimal.")
 
 
-# def stream_processor_demo():
-#     print("=== CODE NEXUS - POLYMORPHIC STREAM SYSTEM ===\n")
+def main():
+    print("=== CODE NEXUS - POLYMORPHIC STREAM SYSTEM ===\n")
 
-#     sensor_data = ["temp:22.5", "humidity:65", "pressure:1013"]
-#     transaction_data = ["buy:100", "sell:150", "buy:75"]
-#     event_data = ["login", "error", "logout"]
+    sensor_data = ["temp:22.5", "humidity:65", "pressure:1013"]
+    transaction_data = ["buy:100", "sell:150", "buy:75"]
+    event_data = ["login", "error", "logout"]
 
-#     sensor = SensorStream("SENSOR_001")
-#     transaction = TransactionStream("TRANS_001")
-#     event = EventStream("EVENT_001")
+    sensor = SensorStream("SENSOR_001")
+    transaction = TransactionStream("TRANS_001")
+    event = EventStream("EVENT_001")
 
-#     print(sensor.process_batch(sensor_data))
-#     print()
-#     print(transaction.process_batch(transaction_data))
-#     print()
-#     print(event.process_batch(event_data))
+    print(sensor.process_batch(sensor_data))
+    print()
+    print(transaction.process_batch(transaction_data))
+    print()
+    print(event.process_batch(event_data))
 
-#     processor = StreamProcessor([sensor, transaction, event])
+    processor = StreamProcessor([sensor, transaction, event])
 
-#     processor.stream_info()
+    processor.stream_info()
+
+
+if __name__ == "__main__":
+    main()
