@@ -1,11 +1,14 @@
 def artifact_sorter(artifacts: list[dict]) -> list[dict]:
     return sorted(artifacts, key=lambda item: item['power'], reverse=True)
 
+
 def power_filter(mages: list[dict], min_power: int) -> list[dict]:
     return list(filter(lambda mage: mage['power'] >= min_power, mages))
 
+
 def spell_transformer(spells: list[str]) -> list[str]:
     return list(map(lambda spell: f"* {spell} *", spells))
+
 
 def mage_stats(mages: list[dict]) -> dict:
     powers = [mage['power'] for mage in mages]
@@ -33,7 +36,7 @@ def main():
     print(" comes before ", end='')
     print(f"{artifacts[1]['name']} ({artifacts[1]['power']} power)")
 
-    print("\nTesting power filter")
+    print("\nTesting power filter...")
     strong_mages = power_filter(mages, min_power=50)
     print("Mages with power >= 50:")
     for mage in strong_mages:
@@ -46,10 +49,9 @@ def main():
     print("\n\nTesting mage stats...")
     stats = mage_stats(mages)
     print("Mage stats:")
-    print(f"Max power: {stats['max_power']}")
-    print(f"Min power: {stats['min_power']}")
+    print(f"Max power: {stats['max_power']['power']}")
+    print(f"Min power: {stats['min_power']['power']}")
     print(f"Average power: {stats['avg_power']:.2f}")
-
 
 
 if __name__ == "__main__":
