@@ -40,3 +40,7 @@ def main():
 
     print("\nAbstract Factory + Strategy Pattern: "
           "Maximum flexibility achieved!")
+
+
+if __name__ == "__main__":
+    main()

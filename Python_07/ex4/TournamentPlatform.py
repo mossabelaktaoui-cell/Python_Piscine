@@ -48,7 +48,7 @@ class TournamentPlatform:
         }
 
     def get_leaderboard(self) -> list:
-        result = ""
+        result = []
         cards = self.sort_cards()
         leaderboard = []
         i = 1
@@ -61,7 +61,7 @@ class TournamentPlatform:
             i += 1
 
         for line in leaderboard:
-            result += line + "\n"
+            result += [line]
 
         return result
 

@@ -22,14 +22,31 @@ def power_validator(min_power: int) -> callable:
         @wraps(func)
         def wrapper(*args, **kwargs):
             power = kwargs.get("power")
-            return f"This power ({power}) is enough"
+
+            if power == None:
+                power = args[0]
+
+            if power < min_power:
+                return "Insufficient power for this spell"
+            return func(*args, **kwargs)
         return wrapper
     return _
-        
+    
 
 
 def retry_spell(max_attempts: int) -> callable:
-    pass
+    def _(func: callable):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            for i in range(max_attempts):
+                try:
+                    result = func(*args, **kwargs)
+                    return result
+                except Exception:
+                    print(f"Spell failed, retrying... ({i + 1}/{max_attempts})")
+            return f"Spell casting failed after {max_attempts} attempts"
+        return wrapper
+    return _
 
 
 class MageGuild:
@@ -42,14 +59,31 @@ class MageGuild:
 
 
 def main():
-    print("Testing spell timer...")
     @spell_timer
     def fire_spell(target):
         time.sleep(1)
         return f"Fire spell hits {target}!"
 
+    @power_validator(10)
+    def spell_attack(power):
+        return f"Fire spell hits with {power}!"
+
+    @retry_spell(5)
+    def is_int(integer):
+        return int(integer)
+
+
+    print("\nTesting spell timer...")
     fire_spell("Goblin")
 
-    @power_validator(10)
-    def fire_spell(power):
-        return f"Fire spell hits with {power}!"
+    print("\nTesting power validator...")
+    print("Min power: 10")
+    print("Curren power: 9")
+    print(spell_attack(9))
+
+    print("\nTesting retry spell...")
+    print(is_int("hallo"))
+
+
+if __name__ == "__main__":
+    main()
