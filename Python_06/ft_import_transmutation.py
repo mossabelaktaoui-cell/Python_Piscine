@@ -14,7 +14,7 @@ def ft_import_transmutation():
     print("\nMethod 3: Aliased import:")
     print("heal(): "f"{heal()}")
 
-    from alchemy import create_earth, create_fire
+    from alchemy.elements import create_earth, create_fire
     from alchemy.potions import strength_potion
     print("\nMethod 4: Multiple import:")
     print("create_earth(): "f"{create_earth()}")
@@ -22,3 +22,7 @@ def ft_import_transmutation():
     print("strength_potion(): "f"{strength_potion()}")
 
     print("\nAll import transmutations methods mastered!")
+
+
+if __name__ == "__main__":
+    ft_import_transmutation()

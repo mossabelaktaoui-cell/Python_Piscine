@@ -19,3 +19,7 @@ def ft_pathway_debate():
           f"{alchemy.transmutation.philosophers_stone()}")
 
     print("\nBoth pathways work! Absolute: clear, Relative: concise")
+
+
+if __name__ == "__main__":
+    ft_pathway_debate()
