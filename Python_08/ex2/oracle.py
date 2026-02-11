@@ -1,5 +1,10 @@
 import os
-import dotenv
+try:
+    import dotenv
+except ImportError:
+    print("The 'dotenv' package is required to run this script."
+          "\nPlease install it using 'pip install python-dotenv'.")
+    exit(1)
 
 print("\nORACLE STATUS: Reading the Matrix...")
 dotenv.load_dotenv()
