@@ -13,7 +13,6 @@ def spell_timer(func: callable) -> callable:
         print(f"Spell completed in {spent_time:.4f} seconds")
         print(f"Result: {func.__name__} cast!")
         return result
-
     return wrapper
 
 
@@ -23,15 +22,14 @@ def power_validator(min_power: int) -> callable:
         def wrapper(*args, **kwargs):
             power = kwargs.get("power")
 
-            if power == None:
-                power = args[0]
+            if power is None and args:
+                power = args[-1]
 
             if power < min_power:
                 return "Insufficient power for this spell"
             return func(*args, **kwargs)
         return wrapper
     return _
-    
 
 
 def retry_spell(max_attempts: int) -> callable:
@@ -43,7 +41,8 @@ def retry_spell(max_attempts: int) -> callable:
                     result = func(*args, **kwargs)
                     return result
                 except Exception:
-                    print(f"Spell failed, retrying... ({i + 1}/{max_attempts})")
+                    print("Spell failed, retrying... "
+                          f"({i + 1}/{max_attempts})")
             return f"Spell casting failed after {max_attempts} attempts"
         return wrapper
     return _
@@ -52,10 +51,16 @@ def retry_spell(max_attempts: int) -> callable:
 class MageGuild:
     @staticmethod
     def validate_mage_name(name: str) -> bool:
-        pass
+        if len(name) < 3:
+            return False
+        for char in name:
+            if not char.isalpha() and char != ' ':
+                return False
+        return True
 
+    @power_validator(10)
     def cast_spell(self, spell_name: str, power: int) -> str:
-        pass
+        return f"Successfully cast {spell_name} with power {power}!"
 
 
 def main():
@@ -72,7 +77,6 @@ def main():
     def is_int(integer):
         return int(integer)
 
-
     print("\nTesting spell timer...")
     fire_spell("Goblin")
 
@@ -83,6 +87,13 @@ def main():
 
     print("\nTesting retry spell...")
     print(is_int("hallo"))
+
+    mage = MageGuild()
+    print("\nTesting MageGuild...")
+    print(mage.validate_mage_name("mossabe_lak"))
+    print(mage.validate_mage_name("mossabe"))
+    print(mage.cast_spell("Lightning", power=15))
+    print(mage.cast_spell("Lightning", power=5))
 
 
 if __name__ == "__main__":
