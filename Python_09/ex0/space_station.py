@@ -14,7 +14,7 @@ class SpaceStaion(BaseModel):
     notes: Optional[str] = Field(max_length=200, default=None)
 
 
-def display_station_info(spacestation: SpaceStaion):
+def display_station_info(spacestation: SpaceStaion) -> None:
     print("Valid station created:")
     print(
         f"ID: {spacestation.station_id}\n"
@@ -26,7 +26,7 @@ def display_station_info(spacestation: SpaceStaion):
                    else "Not operational"}\n")
 
 
-def main():
+def main() -> None:
     print("Space Station Data Validation")
     print("========================================")
     try:

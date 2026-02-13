@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import List
 
 
-class Rank(Enum):
+class Rank(str, Enum):
     CADET = "cadet"
     OFFICER = "officer"
     LIEUTENANT = "lieutenant"
@@ -57,7 +57,7 @@ class SpaceMission(BaseModel):
         return self
 
 
-def display_mission(mission: SpaceMission):
+def display_mission(mission: SpaceMission) -> None:
     print("Valid mission created:")
     print(f"Mission: {mission.mission_name}")
     print(f"ID: {mission.mission_id}")
@@ -73,7 +73,7 @@ def display_mission(mission: SpaceMission):
         )
 
 
-def main():
+def main() -> None:
     print("Space Mission Crew Validation")
     print("=========================================")
 

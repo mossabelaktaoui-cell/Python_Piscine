@@ -26,20 +26,26 @@ class AlienContact(BaseModel):
     def validate(self):
         if not self.contact_id.startswith("AC"):
             raise ValueError('Contact ID must start with "AC"')
-        if self.is_verified is False:
+
+        if self.contact_type == ContactType.PHYSICAL and not self.is_verified:
             raise ValueError('Physical contact reports must be verified')
-        if self.witness_count < 3:
+
+        if (
+             self.contact_type == ContactType.TELEPATHIC
+             and self.witness_count < 3):
             raise ValueError('Telepathic contact require at least 3 witnesses')
-        if self.signal_strength <= 7.0:
-            raise ValueError('Strong signals must be more than 7')
+
+        if self.signal_strength > 7.0 and self.message_received is None:
+            raise ValueError('Strong signals should include received messages')
+
         return self
 
 
-def display_contact_info(contact: AlienContact):
+def display_contact_info(contact: AlienContact) -> None:
     print(
           "Valid contact report:\n"
           f"ID: {contact.contact_id}\n"
-          f"Type: {contact.contact_type}\n"
+          f"Type: {contact.contact_type.value}\n"
           f"Location: {contact.location}\n"
           f"Signal: {contact.signal_strength}/10\n"
           f"Duration: {contact.duration_minutes} minutes\n"
@@ -48,14 +54,14 @@ def display_contact_info(contact: AlienContact):
         print(f"Message: '{contact.message_received}'\n")
 
 
-def main():
+def main() -> None:
     print("Alien Contact Log Validation")
     try:
         print("======================================")
         contact1 = AlienContact(
             contact_id="AC_2024_001",
             timestamp=datetime.now(),
-            contact_type="radio",
+            contact_type=ContactType.RADIO,
             location="Area 51, Nevada",
             signal_strength=8.5,
             duration_minutes=45,
@@ -78,7 +84,7 @@ def main():
         contact2 = AlienContact(
             contact_id="AC_2024_001",
             timestamp=datetime.now(),
-            contact_type="radio",
+            contact_type=ContactType.TELEPATHIC,
             location="Area 51, Nevada",
             signal_strength=8.5,
             duration_minutes=45,
