@@ -33,7 +33,7 @@ class SpaceMission(BaseModel):
     budget_millions: float = Field(ge=1.0, le=10000.0)
 
     @model_validator(mode='after')
-    def validate(self):
+    def check_rules(self) -> 'SpaceMission':
         if not self.mission_id.startswith("M"):
             raise ValueError('Mission ID must start with "M"')
 
@@ -41,7 +41,8 @@ class SpaceMission(BaseModel):
                    if leader.rank == Rank.COMMANDER
                    or leader.rank == Rank.CAPTAIN]
         if len(leaders) < 1:
-            raise ValueError('Must have at least one Commander or Captain')
+            raise ValueError('Mission must have at least '
+                             'one Commander or Captain')
 
         has_5_year_experience = [member for member in self.crew
                                  if member.years_experience >= 5]
@@ -79,7 +80,7 @@ def main() -> None:
 
     try:
         mission1 = SpaceMission(
-            mission_id="M2024_MARS",
+            mission_id="M2025_MARS",
             mission_name="Mars Colony Establishment",
             destination="Mars",
             launch_date=datetime.now(),
@@ -117,7 +118,7 @@ def main() -> None:
     except ValidationError as e:
         print("Expected validation error:")
         for err in e.errors():
-            if 'error' in err['ctx']:
+            if 'ctx' in err and 'error' in err['ctx']:
                 print(err['ctx']['error'])
             else:
                 print(err['msg'])
@@ -129,13 +130,13 @@ def main() -> None:
             mission_name="Moon Research Mission",
             destination="Moon",
             launch_date=datetime.now(),
-            duration_days=0,
+            duration_days=365,
             budget_millions=800.0,
             crew=[
                 CrewMember(
                     member_id="C010",
                     name="Tom Hardy",
-                    rank=Rank.COMMANDER,
+                    rank=Rank.CADET,
                     age=38,
                     specialization="Science",
                     years_experience=10
@@ -155,7 +156,7 @@ def main() -> None:
     except ValidationError as e:
         print("Expected validation error:")
         for err in e.errors():
-            if 'error' in err['ctx']:
+            if 'ctx' in err and 'error' in err['ctx']:
                 print(err['ctx']['error'])
             else:
                 print(err['msg'])

@@ -23,7 +23,7 @@ class AlienContact(BaseModel):
     is_verified: bool = False
 
     @model_validator(mode="after")
-    def validate(self):
+    def check_rules(self) -> 'AlienContact':
         if not self.contact_id.startswith("AC"):
             raise ValueError('Contact ID must start with "AC"')
 
@@ -74,7 +74,7 @@ def main() -> None:
     except ValidationError as e:
         print("Expected validation error:")
         for err in e.errors():
-            if 'error' in err['ctx']:
+            if 'ctx' in err and 'error' in err['ctx']:
                 print(err['ctx']['error'])
             else:
                 print(err['msg'])
@@ -97,7 +97,7 @@ def main() -> None:
     except ValidationError as e:
         print("Expected validation error:")
         for err in e.errors():
-            if 'error' in err['ctx']:
+            if 'ctx' in err and 'error' in err['ctx']:
                 print(err['ctx']['error'])
             else:
                 print(err['msg'])
